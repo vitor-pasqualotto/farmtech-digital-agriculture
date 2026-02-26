@@ -1,10 +1,11 @@
 from menu import exibir_menu
+from dados import dados
 
 def main():
     while True:
         opcao = exibir_menu()
 
-        if opcao == "1":
+        if opcao == "1": 
             print("Inserir dados")
         elif opcao == "2":
             print("Listar dados")
