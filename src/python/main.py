@@ -5,6 +5,51 @@ from manejo_insumos import calcular_insumo
 # Vetor que armazenará todas as plantações cadastradas
 dados = []
 
+def criar_dados():
+    # Pede para o usuário o tipo de cultura
+    cultura = input("\nDigite a cultura (Milho/Café): ").strip().lower()
+
+    # Milho utiliza a área de um retângulo 
+    if cultura == "milho":
+        base = float(input("Base do terreno (m): "))
+        altura = float(input("Altura do terreno (m): "))
+        # Chama a função para calcular a área
+        area = area_retangulo(base, altura)
+
+    # Café utiliza a área de um trapézio 
+    elif cultura == "café":
+        base_maior = float(input("Base maior (m): "))
+        base_menor = float(input("Base menor (m): "))
+        altura = float(input("Altura (m): "))
+        # Chama a função para calcular a área
+        area = area_trapezio(base_maior, base_menor, altura)
+
+    else: 
+        print("Cultura inválida!")
+        return
+
+    # Pede o insumo
+    insumo = input("Digite o nome do insumo: ")
+    # Pede a dose do insumo por metro quadrado
+    dose = float(input("Dose por m²: "))
+
+    # Chama a função para calcular o insumo
+    quantidade = calcular_insumo(area, dose)
+
+    # Cria o objeto para armazenar a nova plantação
+    plantacao = {
+        "cultura": cultura,
+        "area": area,
+        "insumo": insumo,
+        "quantidade": quantidade
+    }
+
+    # Armazena o objeto no vetor
+    dados.append(plantacao)
+
+    # Mostra mensagem de sucesso
+    print("Plantação cadastrada com sucesso!")
+
 def listar_dados():
     # Verifica se existe alguma plantação cadastrada
     if not dados:
@@ -124,66 +169,32 @@ def main():
         # Função para mostrar o menu e solicitar uma opção
         opcao = exibir_menu()
 
-        # Opção de cadastrar nova plantação
-        if opcao == "1":    
-            # Pede para o usuário o tipo de cultura
-            cultura = input("\nDigite a cultura (Milho/Café): ").strip().lower()
+        match opcao:
+            # Opção de cadastrar nova plantação
+            case "1":    
+                # Chama função para cadastrar plantação
+                criar_dados()
 
-            # Milho utiliza a área de um retângulo 
-            if cultura == "milho":
-                base = float(input("Base do terreno (m): "))
-                altura = float(input("Altura do terreno (m): "))
-                # Chama a função para calcular a área
-                area = area_retangulo(base, altura)
+            # Opção para listar platações cadastradas
+            case "2":
+                # Chama função para listar dados
+                listar_dados()
 
-            # Café utiliza a área de um trapézio 
-            elif cultura == "café":
-                base_maior = float(input("Base maior (m): "))
-                base_menor = float(input("Base menor (m): "))
-                altura = float(input("Altura (m): "))
-                # Chama a função para calcular a área
-                area = area_trapezio(base_maior, base_menor, altura)
+            # Opção para atualizar plantação 
+            case "3":
+                # Chama função para atualizar dados
+                atualizar_dados()
 
-            else: 
-                print("Cultura inválida!")
-                continue
+            # Opção para deletar plantação
+            case "4":
+                # Chama função para deletar dados
+                deletar_dados()
 
-            # Pede o insumo
-            insumo = input("Digite o nome do insumo: ")
-            # Pede a dose do insumo por metro quadrado
-            dose = float(input("Dose por m²: "))
-
-            # Chama a função para calcular o insumo
-            quantidade = calcular_insumo(area, dose)
-
-            # Cria o objeto para armazenar a nova plantação
-            plantacao = {
-                "cultura": cultura,
-                "area": area,
-                "insumo": insumo,
-                "quantidade": quantidade
-            }
-
-            # Armazena o objeto no vetor
-            dados.append(plantacao)
-
-            # Mostra mensagem de sucesso
-            print("Plantação cadastrada com sucesso!")
-
-        # Opção para listar platações cadastradas
-        elif opcao == "2":
-            # Chama função para listar dados
-            listar_dados()
-
-        # Opção para atualizar plantação 
-        elif opcao == "3":
-            # Chama função para atualizar dados
-            atualizar_dados()
-
-        # Opção para deletar plantação
-        elif opcao == "4":
-            # Chama função para deletar dados
-            deletar_dados()
+            # Opção para sair 
+            case "5":
+                print("\nSaindo...")
+                # Sai do loop
+                break
 
 if __name__ == "__main__":
     main()
