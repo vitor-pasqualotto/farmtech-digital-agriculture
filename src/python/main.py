@@ -9,6 +9,7 @@ def listar_dados():
     # Verifica se existe alguma plantação cadastrada
     if not dados:
         print("\nNenhuma platação cadastrada.")
+        return
 
     print("\n===== PLANTAÇÕES CADASTRADAS =====")
 
@@ -21,6 +22,74 @@ def listar_dados():
             Insumo: {plantacao['insumo']}
             Qunatidade necessária: {plantacao['quantidade']:.2f}
         """)
+
+def atualizar_dados():
+    # Verifica se existe alguma plantação cadastrada
+    if not dados:
+        print("\nNenhuma plantação cadastrada para atualizar.")
+        return
+
+    # Lista as platações
+    listar_dados()
+
+    try:
+        # Pede o índice que o usuário deseja atualizar
+        indice = int(input("\nDigite o índice da plantação que deseja atualizar: "))
+
+        # Verifica se o índice está correto
+        if 0 <= indice < len(dados):
+
+            print("\nEscolha a nova cultura: ")
+            print("\n1 - Milho")
+            print("2 - Café")
+
+            # Pede a nova cultura
+            opcao = int(input("\nOpção: "))
+
+            match opcao:
+                # Pede as novas informções para cadastrar milho
+                case 1:
+                    cultura = "milho"
+
+                    base = float(input("Base do terreno (m): "))
+                    altura = float(input("Altura do terreno (m): "))
+                    area = area_retangulo(base, altura)
+
+                # Pede as novas informções para cadastrar café
+                case 2:
+                    cultura = "café"
+
+                    base_maior = float(input("Base maior (m): "))
+                    base_menor = float(input("Base menor (m): "))
+                    altura = float(input("Altura (m): "))
+                    area = area_trapezio(base_maior, base_menor, altura)
+
+                case _:
+                    print("\nOpção inválida.")
+                    return
+            
+            # Pede insumo, dose e calcula a quantidade
+            insumo = input("Insumo: ")
+            dose = float(input("Dose de insumo: "))
+            quantidade = calcular_insumo(area, dose)
+
+            # Atualiza a plantação
+            dados[indice] = {
+                "cultura": cultura,
+                "area": area,
+                "insumo": insumo,
+                "quantidade": quantidade
+            }
+
+            # Exibe mensagem de sucesso
+            print("\nPlantação atualizada com sucesso.")
+        
+        else:
+            print("\nÍndice inválido.")
+            
+    except ValueError:
+        # Trata o input do usuário, se não for válido exibe mensagem de erro
+        print("\nDigite apenas números válidos.")
 
 def deletar_dados():
     # Verifica se existe alguma plantação cadastrada
@@ -41,11 +110,12 @@ def deletar_dados():
             removido = dados.pop(indice)
             # Exibe mensagem de sucesso
             print(f"\nPlantação '{removido['cultura']}' removida com sucesso.")
-            
+
         else:
             print("\nÍndice inválido.")
 
     except ValueError:
+        # Trata o input do usuário, se não for válido exibe mensagem de erro
         print("\nDigite um número válido.")
 
 def main():
@@ -100,15 +170,17 @@ def main():
             # Mostra mensagem de sucesso
             print("Plantação cadastrada com sucesso!")
 
-        # Opção de listar platações cadastradas
+        # Opção para listar platações cadastradas
         elif opcao == "2":
             # Chama função para listar dados
             listar_dados()
 
+        # Opção para atualizar plantação 
         elif opcao == "3":
-            print("Atualizar dados")
+            # Chama função para atualizar dados
+            atualizar_dados()
 
-        # Opção para deletar dados
+        # Opção para deletar plantação
         elif opcao == "4":
             # Chama função para deletar dados
             deletar_dados()
