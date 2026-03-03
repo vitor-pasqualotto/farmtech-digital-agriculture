@@ -1,0 +1,14 @@
+[
+    {
+        "cultura": "café",
+        "area": 330.0,
+        "insumo": "teste",
+        "quantidade": 1023.0
+    },
+    {
+        "cultura": "milho",
+        "area": 240.0,
+        "insumo": "teste",
+        "quantidade": 648.0
+    }
+]

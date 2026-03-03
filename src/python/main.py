@@ -1,9 +1,24 @@
 from menu import exibir_menu
 from calculos_area import area_retangulo, area_trapezio
 from manejo_insumos import calcular_insumo
+import json
+import os
+
+def salvar_dados():
+    # Salva o conteúdo do vetor "dados" no arquivo "plantacoes.json"
+    with open("plantacoes.json", "w", encoding="utf-8") as arquivo:
+        json.dump(dados, arquivo, indent=4, ensure_ascii=False)
+
+def carregar_dados():
+    # Carrega o arquivo "plantacoes.json" com os dados salvos
+    if os.path.exists("plantacoes.json"):
+        with open("plantacoes.json", "r", encoding="utf-8") as arquivo:
+            return json.load(arquivo)
+    
+    return []
 
 # Vetor que armazenará todas as plantações cadastradas
-dados = []
+dados = carregar_dados()
 
 def criar_dados():
     # Pede para o usuário o tipo de cultura
@@ -46,6 +61,9 @@ def criar_dados():
 
     # Armazena o objeto no vetor
     dados.append(plantacao)
+
+    # Chama função para salvar dados no arquivo "plantacoes.json"
+    salvar_dados()
 
     # Mostra mensagem de sucesso
     print("Plantação cadastrada com sucesso!")
@@ -126,6 +144,9 @@ def atualizar_dados():
                 "quantidade": quantidade
             }
 
+            # Chama função para salvar dados no arquivo "plantacoes.json"
+            salvar_dados()
+
             # Exibe mensagem de sucesso
             print("\nPlantação atualizada com sucesso.")
         
@@ -153,6 +174,9 @@ def deletar_dados():
         if 0 <= indice < len(dados):
             # Remove o índice do vetor
             removido = dados.pop(indice)
+            # Chama função para salvar dados no arquivo "plantacoes.json"
+            salvar_dados()
+
             # Exibe mensagem de sucesso
             print(f"\nPlantação '{removido['cultura']}' removida com sucesso.")
 
