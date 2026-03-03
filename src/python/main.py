@@ -6,13 +6,13 @@ import os
 
 def salvar_dados():
     # Salva o conteúdo do vetor "dados" no arquivo "plantacoes.json"
-    with open("plantacoes.json", "w", encoding="utf-8") as arquivo:
+    with open("../exports/plantacoes.json", "w", encoding="utf-8") as arquivo:
         json.dump(dados, arquivo, indent=4, ensure_ascii=False)
 
 def carregar_dados():
     # Carrega o arquivo "plantacoes.json" com os dados salvos
-    if os.path.exists("plantacoes.json"):
-        with open("plantacoes.json", "r", encoding="utf-8") as arquivo:
+    if os.path.exists("../exports/plantacoes.json"):
+        with open("../exports/plantacoes.json", "r", encoding="utf-8") as arquivo:
             return json.load(arquivo)
     
     return []
